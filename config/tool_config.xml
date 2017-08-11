@@ -1,0 +1,202 @@
+<?xml version="1.0"?>
+<opencv_storage>
+<!-- Keypoints Config -->
+<!-- LND -->
+<lnd_shaft_centre>
+  8.814e+00 0. 0.</lnd_shaft_centre>
+<lnd_shaft_pivot_flat>
+  0. 0. -3.93e+00</lnd_shaft_pivot_flat>
+<lnd_shaft_pivot_deep>
+  0. 0. 4.14e+00</lnd_shaft_pivot_deep>
+<lnd_logo_pin_flat>
+ -0.27e+00 -2.69e+00 3.04e+00</lnd_logo_pin_flat>
+<lnd_logo_pin_deep>
+  0.27e+00 -2.69e+00 -3.04e+00</lnd_logo_pin_deep>
+<lnd_logo_wheel_flat>
+  3.12e+00 -3.66e+00 1.47</lnd_logo_wheel_flat>
+<lnd_logo_wheel_deep>
+ -3.12e+00 -3.66e+00 -1.47e+00</lnd_logo_wheel_deep>
+<lnd_logo_s_flat>
+ -0.317e+00 -5.841e+00 2.998e+00</lnd_logo_s_flat>
+<lnd_logo_s_deep>
+  0.317e+00 -5.841e+00 -2.998e+00</lnd_logo_s_deep>
+<lnd_logo_idot_flat>
+  0.5725e+00 -7.6198e+00 2.8264e+00</lnd_logo_idot_flat>
+<lnd_logo_idot_deep>
+ -0.5725e+00 -7.6198e+00 -2.8264e+00</lnd_logo_idot_deep>
+<lnd_logo_pivot_flat>
+  0. -8.99e+00 2.65e+00</lnd_logo_pivot_flat>
+<lnd_logo_pivot_deep>
+  0. -8.99e+00 -2.81e+00</lnd_logo_pivot_deep>
+<lnd_tip_flat>
+  0. 0.635e+00 9.652e+00</lnd_tip_flat>
+<lnd_tip_deep>
+  0. -0.635e+00 9.652e+00</lnd_tip_deep>
+<lnd_tip>
+  0. 0. 9.652e+00</lnd_tip>
+<!-- MCS -->
+<mcs_shaft_centre>
+  8.814e+00 0. 0.</mcs_shaft_centre>
+<mcs_shaft_pivot_flat>
+  0. 0. 3.43e+00</mcs_shaft_pivot_flat>
+<mcs_shaft_pivot_deep>
+  0. 0. -3.44e+00</mcs_shaft_pivot_deep>
+<mcs_logo_pin_flat>
+ -0.27e+00 -2.69e+00 3.04e+00</mcs_logo_pin_flat>
+<mcs_logo_pin_deep>
+  0.27e+00 -2.69e+00 -3.04e+00</mcs_logo_pin_deep>
+<mcs_logo_wheel_flat>
+  3.20e+00 -3.82e+00 0.93e+00</mcs_logo_wheel_flat>
+<mcs_logo_wheel_deep>
+ -3.20e+00 -3.82e+00 -0.93e+00</mcs_logo_wheel_deep>
+<mcs_logo_s_flat>
+ -0.317e+00 -5.841e+00 2.998e+00</mcs_logo_s_flat>
+<mcs_logo_s_deep>
+  0.317e+00 -5.841e+00 -2.998e+00</mcs_logo_s_deep>
+<mcs_logo_idot_flat>
+  0.5725e+00 -7.6198e+00 2.8264e+00</mcs_logo_idot_flat>
+<mcs_logo_idot_deep>
+ -0.5725e+00 -7.6198e+00 -2.8264e+00</mcs_logo_idot_deep>
+<mcs_logo_pivot_flat>
+  0. -8.99e+00 2.65e+00</mcs_logo_pivot_flat>
+<mcs_logo_pivot_deep>
+  0. -8.99e+00 -2.81e+00</mcs_logo_pivot_deep>
+<mcs_tip_flat>
+  1.15e+00 0.33e+00 12.57e+00</mcs_tip_flat>
+<mcs_tip_deep>
+  1.43e+00 -1.11e+00 11.91e+00</mcs_tip_deep>
+<mcs_tip>
+  0. 0. 12.84e+00</mcs_tip>
+<!-- ProGrasp -->
+<pgrasp_shaft_centre>
+  8.814e+00 0. 0.</pgrasp_shaft_centre>
+<pgrasp_shaft_pivot_flat>
+  0. 0. -3.93e+00</pgrasp_shaft_pivot_flat>
+<pgrasp_shaft_pivot_deep>
+  0. 0. 4.14e+00</pgrasp_shaft_pivot_deep>
+<pgrasp_logo_pin_flat>
+ -0.27e+00 -2.85e+00 3.97e+00</pgrasp_logo_pin_flat>
+<pgrasp_logo_pin_deep>
+  0.27e+00 -2.85e+00 -3.97e+00</pgrasp_logo_pin_deep>
+<pgrasp_logo_wheel_flat>
+  3.12e+00 -3.58e+00 2.04e+00</pgrasp_logo_wheel_flat>
+<pgrasp_logo_wheel_deep>
+ -3.12e+00 -3.58e+00 -2.04e+00</pgrasp_logo_wheel_deep>
+<pgrasp_logo_s_flat>
+ -0.261e+00 -6.583e+00 4.11e+00</pgrasp_logo_s_flat>
+<pgrasp_logo_s_deep>
+  0.261e+00 -6.583e+00 -4.11e+00</pgrasp_logo_s_deep>
+<pgrasp_logo_idot_flat>
+  0.66e+00 -8.23e+00 4.08e+00</pgrasp_logo_idot_flat>
+<pgrasp_logo_idot_deep>
+ -0.66e+00 -8.23e+00 -4.08e+00</pgrasp_logo_idot_deep>
+<pgrasp_logo_pivot_flat>
+  0. -10.67e+00 4.15e+00</pgrasp_logo_pivot_flat>
+<pgrasp_logo_pivot_deep>
+  0. -10.67e+00 -4.05e+00</pgrasp_logo_pivot_deep>
+<pgrasp_tip_flat>
+  0. 1.155e+00 27.13e+00</pgrasp_tip_flat>
+<pgrasp_tip_deep>
+  0. -1.16e+00 27.06e+00</pgrasp_tip_deep>
+<pgrasp_tip>
+  0. 0.227e+00 27.68e+00</pgrasp_tip>
+  <!-- MBF -->
+<mbf_shaft_centre>
+  8.814e+00 0. 0.</mbf_shaft_centre>
+<mbf_shaft_pivot_flat>
+  0. 0. -3.93e+00</mbf_shaft_pivot_flat>
+<mbf_shaft_pivot_deep>
+  0. 0. 4.14e+00</mbf_shaft_pivot_deep>
+<mbf_logo_pin_flat>
+-0.27e+00 -2.85e+00 3.97e+00</mbf_logo_pin_flat>
+<mbf_logo_pin_deep>
+  0.27e+00 -2.85e+00 -3.97e+00</mbf_logo_pin_deep>
+<mbf_logo_wheel_flat>
+  3.12e+00 -3.58e+00 2.04e+00</mbf_logo_wheel_flat>
+<mbf_logo_wheel_deep>
+-3.12e+00 -3.58e+00 -2.04e+00</mbf_logo_wheel_deep>
+<mbf_logo_s_flat>
+-0.261e+00 -6.583e+00 4.11e+00</mbf_logo_s_flat>
+<mbf_logo_s_deep>
+  0.261e+00 -6.583e+00 -4.11e+00</mbf_logo_s_deep>
+<mbf_logo_idot_flat>
+  0.66e+00 -8.23e+00 4.08e+00</mbf_logo_idot_flat>
+<mbf_logo_idot_deep>
+-0.66e+00 -8.23e+00 -4.08e+00</mbf_logo_idot_deep>
+<mbf_logo_pivot_flat>
+  0. -10.67e+00 4.15e+00</mbf_logo_pivot_flat>
+<mbf_logo_pivot_deep>
+  0. -10.67e+00 -4.05e+00</mbf_logo_pivot_deep>
+<mbf_tip_flat>
+  1.36e+00 0.2e+00 19.89e+00</mbf_tip_flat>
+<mbf_tip_deep>
+  1.36e+00 -0.2e+00 19.89e+00</mbf_tip_deep>
+<mbf_tip>
+  1.36e+00 0. 19.89e+00</mbf_tip>
+  <!-- CF -->
+<cf_shaft_centre>
+  8.814e+00 0. 0.</cf_shaft_centre>
+<cf_shaft_pivot_flat>
+  0. 0. -3.93e+00</cf_shaft_pivot_flat>
+<cf_shaft_pivot_deep>
+  0. 0. 4.14e+00</cf_shaft_pivot_deep>
+<cf_logo_pin_flat>
+-0.27e+00 -2.69e+00 3.04e+00</cf_logo_pin_flat>
+<cf_logo_pin_deep>
+  0.27e+00 -2.69e+00 -3.04e+00</cf_logo_pin_deep>
+<cf_logo_wheel_flat>
+  3.12e+00 -3.66e+00 1.47</cf_logo_wheel_flat>
+<cf_logo_wheel_deep>
+-3.12e+00 -3.66e+00 -1.47e+00</cf_logo_wheel_deep>
+<cf_logo_s_flat>
+-0.317e+00 -5.841e+00 2.998e+00</cf_logo_s_flat>
+<cf_logo_s_deep>
+  0.317e+00 -5.841e+00 -2.998e+00</cf_logo_s_deep>
+<cf_logo_idot_flat>
+  0.5725e+00 -7.6198e+00 2.8264e+00</cf_logo_idot_flat>
+<cf_logo_idot_deep>
+-0.5725e+00 -7.6198e+00 -2.8264e+00</cf_logo_idot_deep>
+<cf_logo_pivot_flat>
+  0. -8.99e+00 2.65e+00</cf_logo_pivot_flat>
+<cf_logo_pivot_deep>
+  0. -8.99e+00 -2.81e+00</cf_logo_pivot_deep>
+<cf_tip_flat>
+  0. 1.28e+00 19.09e+00</cf_tip_flat>
+<cf_tip_deep>
+  0. -1.28e+00 19.09e+00</cf_tip_deep>
+<cf_tip>
+  0. 0. 19.50e+00</cf_tip>
+<!-- RTS -->
+<rts_shaft_centre>
+  8.814e+00 0. 0.</rts_shaft_centre>
+<rts_shaft_pivot_flat>
+  0. 0. -3.93e+00</rts_shaft_pivot_flat>
+<rts_shaft_pivot_deep>
+  0. 0. 4.14e+00</rts_shaft_pivot_deep>
+<rts_logo_pin_flat>
+  -0.27e+00 -2.69e+00 3.04e+00</rts_logo_pin_flat>
+<rts_logo_pin_deep>
+  0.27e+00 -2.69e+00 -3.04e+00</rts_logo_pin_deep>
+<rts_logo_wheel_flat>
+  3.12e+00 -3.66e+00 1.47</rts_logo_wheel_flat>
+<rts_logo_wheel_deep>
+  -3.12e+00 -3.66e+00 -1.47e+00</rts_logo_wheel_deep>
+<rts_logo_s_flat>
+  -0.317e+00 -5.841e+00 2.998e+00</rts_logo_s_flat>
+<rts_logo_s_deep>
+  0.317e+00 -5.841e+00 -2.998e+00</rts_logo_s_deep>
+<rts_logo_idot_flat>
+  0.5725e+00 -7.6198e+00 2.8264e+00</rts_logo_idot_flat>
+<rts_logo_idot_deep>
+  -0.5725e+00 -7.6198e+00 -2.8264e+00</rts_logo_idot_deep>
+<rts_logo_pivot_flat>
+  0. -8.99e+00 2.65e+00</rts_logo_pivot_flat>
+<rts_logo_pivot_deep>
+  0. -8.99e+00 -2.81e+00</rts_logo_pivot_deep>
+<rts_tip_flat>
+  -0.8e+00 1.42e+00  9.62e+00</rts_tip_flat>
+<rts_tip_deep>
+  0.8e+00 -0.58e+00 9.62e+00</rts_tip_deep>
+<rts_tip>
+  0. 0. 10.54e+00</rts_tip>
+</opencv_storage>
