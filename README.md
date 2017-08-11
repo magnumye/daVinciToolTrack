@@ -22,7 +22,7 @@ VTK 6.30+
 
 Eigen (included)
 
-Note that you will need to contact Intuitive Surgical for the CAD models of the surgical tools. Unfortunately, we are not allowed to share the CAD files without the permission. Our data will be available soon.
+Note that you will need to contact Intuitive Surgical for the CAD models of the surgical tools. Unfortunately, we are not allowed to share the CAD files without permission. Our data will be available soon.
 
 ### License ###
 
