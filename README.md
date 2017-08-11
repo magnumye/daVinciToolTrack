@@ -27,9 +27,3 @@ Note that you will need to contact Intuitive Surgical for the CAD models of the 
 ### License ###
 
 This code is distributed under BSD License.
-
-### Contact ###
-
-Author: Menglong Ye
-
-Email: magnumye@gmail.com
