@@ -14,9 +14,11 @@ void compose_rotation(const double &thetaX, const double &thetaY,
 
 
 CameraProcessor::CameraProcessor(double fx, double fy, double px, double py, int w, int h,
-								   const cv::Mat& cHw_, const cv::Mat& cHw2_,
-								   const std::vector<cv::Scalar>& LND_partcolors,
-								   const std::map<std::string, int>& LND_partname2ids): Fx(fx), Fy(fy), Px(px), Py(py), width(w), height(h)
+								 const cv::Mat& cHw_, const cv::Mat& cHw2_,
+								 const std::vector<cv::Scalar>& LND_partcolors,
+								 const std::map<std::string, int>& LND_partname2ids): 
+Fx(fx), Fy(fy), Px(px), Py(py), width(w), height(h), show_kine (false)
+
 {
 
 	tool_partcolors.resize(LND_partcolors.size());
@@ -72,6 +74,12 @@ void CameraProcessor::start()
 	this->moveToThread(&thread_);
 	thread_.start();
 }
+
+void CameraProcessor::show_kinematics(bool checked)
+{
+	show_kine = checked;
+}
+
 
 void CameraProcessor::process() 
 {
@@ -152,13 +160,14 @@ void CameraProcessor::process()
 
 	camera_img_id++;
 
-	draw_skel(camera_image_local, cHw, psm1_bHj4_local, psm1_bHj5_local, 
-		psm1_bHe_local, psm1_jaw_local, false, 1);
+	if (show_kine)
+		draw_skel(camera_image_local, cHw, psm1_bHj4_local, psm1_bHj5_local, 
+			psm1_bHe_local, psm1_jaw_local, false, 1);
 	draw_skel(camera_image_local, cHw, psm1_bHj4_local, psm1_bHj5_local, 
 		psm1_bHe_local, psm1_jaw_local, corr_T, 1, psm1_slope_local);
-
-	draw_skel(camera_image_local, cHw2, psm2_bHj4_local, psm2_bHj5_local, 
-		psm2_bHe_local, psm2_jaw_local, false, 2);
+	if (show_kine)
+		draw_skel(camera_image_local, cHw2, psm2_bHj4_local, psm2_bHj5_local, 
+			psm2_bHe_local, psm2_jaw_local, false, 2);
 	draw_skel(camera_image_local, cHw2, psm2_bHj4_local, psm2_bHj5_local, 
 		psm2_bHe_local, psm2_jaw_local, corr_T2, 2, psm2_slope_local);
 
@@ -199,14 +208,14 @@ void CameraProcessor::process()
 }
 
 bool CameraProcessor::process_camera(const std::vector<cv::Point3f>& psm1_allKeypoints,
-									  const std::vector<cv::Point2f>& psm1_projectedKeypoints,
-									  const std::vector<cv::Point3f>& psm2_allKeypoints,
-									  const std::vector<cv::Point2f>& psm2_projectedKeypoints,
-									  const std::vector<int>& ra_template_half_sizes,
-									  const std::vector<int>& la_template_half_sizes,
-									  cv::Mat& camera_image, cv::Mat& psm1_err_T,
-									  cv::Mat& psm2_err_T, bool& T_cam_set,
-									  bool& T2_cam_set, int img_id)
+									 const std::vector<cv::Point2f>& psm1_projectedKeypoints,
+									 const std::vector<cv::Point3f>& psm2_allKeypoints,
+									 const std::vector<cv::Point2f>& psm2_projectedKeypoints,
+									 const std::vector<int>& ra_template_half_sizes,
+									 const std::vector<int>& la_template_half_sizes,
+									 cv::Mat& camera_image, cv::Mat& psm1_err_T,
+									 cv::Mat& psm2_err_T, bool& T_cam_set,
+									 bool& T2_cam_set, int img_id)
 {
 
 	cv::Mat rectify_left;
@@ -532,10 +541,10 @@ bool CameraProcessor::process_camera(const std::vector<cv::Point3f>& psm1_allKey
 
 
 void CameraProcessor::shape_context_verification(cv::Mat& img, const std::vector<Match>& matches, 
-												  const std::vector<cv::Point2f>& projectedKeypoints, 
-												  std::vector<cv::Point2f>& verifiedCamerapoints,
-												  std::vector<std::string>& verifiedNames,
-												  const std::vector<int>& template_half_sizes)
+												 const std::vector<cv::Point2f>& projectedKeypoints, 
+												 std::vector<cv::Point2f>& verifiedCamerapoints,
+												 std::vector<std::string>& verifiedNames,
+												 const std::vector<int>& template_half_sizes)
 {
 
 	// Shape Context Verification
@@ -598,9 +607,9 @@ void CameraProcessor::shape_context_verification(cv::Mat& img, const std::vector
 }
 
 void CameraProcessor::calc_H_z_estiamted(const std::vector<cv::Point3f>& kpts_cstar, 
-										  const std::vector<double>& state_estimated, 
-										  double f_x, double f_y, double d_x, double d_y,
-										  cv::Mat& H, cv::Mat& z_estimated)
+										 const std::vector<double>& state_estimated, 
+										 double f_x, double f_y, double d_x, double d_y,
+										 cv::Mat& H, cv::Mat& z_estimated)
 {
 	double theta_x = state_estimated[0];
 	double theta_y = state_estimated[1];
@@ -785,11 +794,11 @@ void CameraProcessor::initEKFPSM2(int state_dim, int measure_dim, int w_dim, int
 }
 
 void CameraProcessor::draw_skel(cv::Mat &img,
-								 const cv::Mat &cHb,
-								 const Eigen::Matrix<double, 4, 4, Eigen::RowMajor> &psm_Hj4,
-								 const Eigen::Matrix<double, 4, 4, Eigen::RowMajor> &psm_Hj5,
-								 const Eigen::Matrix<double, 4, 4, Eigen::RowMajor> &psm_He,
-								 const float jaw_in, bool virt_or_cam, int psm_num)
+								const cv::Mat &cHb,
+								const Eigen::Matrix<double, 4, 4, Eigen::RowMajor> &psm_Hj4,
+								const Eigen::Matrix<double, 4, 4, Eigen::RowMajor> &psm_Hj5,
+								const Eigen::Matrix<double, 4, 4, Eigen::RowMajor> &psm_He,
+								const float jaw_in, bool virt_or_cam, int psm_num)
 {
 	cv::Mat subP = cv::Mat::eye(3, 3, CV_32FC1);
 	subP.at<float>(0,0) = Fx; subP.at<float>(1,1) = Fy;
@@ -902,10 +911,10 @@ void CameraProcessor::draw_skel(cv::Mat &img,
 }
 
 void CameraProcessor::draw_skel(cv::Mat &img, const cv::Mat &cHb,
-								 const Eigen::Matrix<double, 4, 4, Eigen::RowMajor> &psm_Hj4,
-								 const Eigen::Matrix<double, 4, 4, Eigen::RowMajor> &psm_Hj5,
-								 const Eigen::Matrix<double, 4, 4, Eigen::RowMajor> &psm_He,
-								 const float jaw_in, const cv::Mat& err_T, int psm_num, float slope)
+								const Eigen::Matrix<double, 4, 4, Eigen::RowMajor> &psm_Hj4,
+								const Eigen::Matrix<double, 4, 4, Eigen::RowMajor> &psm_Hj5,
+								const Eigen::Matrix<double, 4, 4, Eigen::RowMajor> &psm_He,
+								const float jaw_in, const cv::Mat& err_T, int psm_num, float slope)
 {
 	cv::Mat subP = cv::Mat::eye(3, 3, CV_32FC1);
 	subP.at<float>(0,0) = Fx; subP.at<float>(1,1) = Fy;

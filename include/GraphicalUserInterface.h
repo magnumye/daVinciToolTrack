@@ -61,9 +61,9 @@ private slots:
 
     void on_live_checkBox_toggled(bool checked);
 
-    void on_startRecButton_released();
+    void on_sim_checkBox_toggled(bool checked);
 
-    void on_stopRecButton_released();
+    void on_kine_checkBox_toggled(bool checked);
 
 private:
 

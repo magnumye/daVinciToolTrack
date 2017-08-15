@@ -152,6 +152,9 @@ protected:
 
 	vtkSmartPointer<vtkLight> m_light;
 
+	void show_simulation(bool checked);
+	void show_kinematics(bool checked);
+
 	// setup record and start
 	void setup_record();
 
@@ -310,6 +313,8 @@ private:
 
 	// Live/file mode, in Windows only read file
 	bool is_live_;
+
+	bool show_sim;
 
 	// if recording current scene (without rendering)
 	bool is_recording_;

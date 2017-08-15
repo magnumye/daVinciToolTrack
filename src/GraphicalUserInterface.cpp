@@ -14,6 +14,8 @@ GraphicalUserInterface::GraphicalUserInterface(std::string config_path) :
     this->setupUi(this);
     sim.setupGUI(this);
 
+	virtual_label->setVisible(false);
+
     // Set up action signals and slots
     connect(this->actionExit, SIGNAL(triggered()), this, SLOT(slotExit()));
 
@@ -55,14 +57,22 @@ void GraphicalUserInterface::on_live_checkBox_toggled(bool checked)
     this->live_checkBox->setChecked(false);
 }
 
-void GraphicalUserInterface::on_startRecButton_released()
+void GraphicalUserInterface::on_sim_checkBox_toggled(bool checked)
 {
-    sim.setup_record();
+	if (!checked)
+	{
+		virtual_label->setVisible(false);
+	}
+	else
+	{
+		virtual_label->setVisible(true);
+	}
+	sim.show_simulation(checked);
 }
 
-void GraphicalUserInterface::on_stopRecButton_released()
+void GraphicalUserInterface::on_kine_checkBox_toggled(bool checked)
 {
-    sim.stop_record();
+	sim.show_kinematics(checked);
 }
 
 void GraphicalUserInterface::setInfo1(QString message)

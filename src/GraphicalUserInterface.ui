@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>RenderWindowUIMultipleInheritance</string>
+   <string>daVinci Tool Tracking App</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -28,9 +28,9 @@
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_2">
           <item>
-           <widget class="QLabel" name="virtual_label">
+           <widget class="QLabel" name="camera_label">
             <property name="text">
-             <string>Here shows the virtual image from vtk</string>
+             <string>Here shows image captured from camera</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignCenter</set>
@@ -38,9 +38,9 @@
            </widget>
           </item>
           <item>
-           <widget class="QLabel" name="camera_label">
+           <widget class="QLabel" name="virtual_label">
             <property name="text">
-             <string>Here shows image captured from camera</string>
+             <string>Here shows the virtual image from vtk</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignCenter</set>
@@ -61,24 +61,24 @@
             </property>
            </widget>
           </item>
-          <item row="1" column="2">
-           <widget class="QPushButton" name="startRecButton">
-            <property name="text">
-             <string>Start Record</string>
-            </property>
-           </widget>
-          </item>
           <item row="1" column="0">
            <widget class="QPushButton" name="loadButton">
             <property name="text">
-             <string>Load Model</string>
+             <string>Load and Track</string>
             </property>
            </widget>
           </item>
-          <item row="1" column="3">
-           <widget class="QPushButton" name="stopRecButton">
+          <item row="1" column="1">
+           <widget class="QCheckBox" name="sim_checkBox">
             <property name="text">
-             <string>Stop Record</string>
+             <string>Show Simulation</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="2">
+           <widget class="QCheckBox" name="kine_checkBox">
+            <property name="text">
+             <string>Show Kinematics</string>
             </property>
            </widget>
           </item>

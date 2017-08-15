@@ -36,19 +36,25 @@ public:
 	void set_simulator(Simulator* sim);
 
 	void start();
+	
+	void show_kinematics(bool checked);
+
 signals:
 	void updateCameraImage(QImage);
 	void dispFrameRate(QString);
 
 	public slots:
 		void process();
+		
 protected:
 	QTimer timer_;
 	QThread thread_;
 
 	Simulator* simulator_;
-
 private:
+
+	// Show kinematics
+	bool show_kine;
 
 	double Fx;
 	double Fy;
@@ -56,6 +62,7 @@ private:
 	double Py;
 	int width;
 	int height;
+
 
 	cv::Mat cHw, cHw2;
 	cv::Mat corr_T;
