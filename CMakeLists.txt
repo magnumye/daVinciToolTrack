@@ -15,14 +15,9 @@ find_package( OpenCV REQUIRED )
 find_package(VTK 6.0 REQUIRED)
 include(${VTK_USE_FILE})
 
-if(${VTK_VERSION} VERSION_GREATER "6")
-  # Instruct CMake to run moc automatically when needed.
-  set(CMAKE_AUTOMOC ON)
-  find_package(Qt5Widgets REQUIRED)
-else()
-  find_package(Qt4 REQUIRED)
-  include(${QT_USE_FILE})
-endif()
+# Instruct CMake to run moc automatically when needed.
+set(CMAKE_AUTOMOC ON)
+find_package(Qt5Widgets REQUIRED)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include ${CMAKE_CURRENT_BINARY_DIR})
 
@@ -62,30 +57,10 @@ SET( QT_WRAP
 	include/psm_tool.h
 )
 
+qt5_wrap_ui(UISrcs ${UI_FILES} )
+# CMAKE_AUTOMOC in ON so the MocHdrs will be automatically wrapped.
+add_executable(daVinciToolTrack MACOSX_BUNDLE
+  ${CXX_FILES} ${UISrcs} ${QT_WRAP})
+qt5_use_modules(daVinciToolTrack Core Gui Widgets)
 
-
-if(${VTK_VERSION} VERSION_GREATER "6")
-  qt5_wrap_ui(UISrcs ${UI_FILES} )
-  # CMAKE_AUTOMOC in ON so the MocHdrs will be automatically wrapped.
-  add_executable(daVinciToolTrack MACOSX_BUNDLE
-    ${CXX_FILES} ${UISrcs} ${QT_WRAP})
-  qt5_use_modules(daVinciToolTrack Core Gui Widgets)
-
-  target_link_libraries(daVinciToolTrack ${VTK_LIBRARIES} ${OpenCV_LIBS})
-
-else()
-  QT4_WRAP_UI(UISrcs ${UI_FILES})
-  QT4_WRAP_CPP(MOCSrcs ${QT_WRAP})
-  add_executable(daVinciToolTrack MACOSX_BUNDLE ${CXX_FILES} ${UISrcs} ${MOCSrcs})
-
-  
-  if(VTK_LIBRARIES)
-    if(${VTK_VERSION} VERSION_LESS "6")
-		target_link_libraries(daVinciToolTrack ${OpenCV_LIBS} ${VTK_LIBRARIES})
-    else()
-		target_link_libraries(daVinciToolTrack ${OpenCV_LIBS} ${VTK_LIBRARIES})	
-    endif()
-  else()
-		target_link_libraries(daVinciToolTrack vtkHybrid vtkViews ${OpenCV_LIBS} ${QT_LIBRARIES})
-  endif()
-endif()
+target_link_libraries(daVinciToolTrack ${VTK_LIBRARIES} ${OpenCV_LIBS})
