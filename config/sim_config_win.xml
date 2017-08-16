@@ -1,13 +1,13 @@
 <?xml version="1.0"?>
 <opencv_storage>
-<data_dir>../data/dvrk_sim_phantom_validation/3/R/</data_dir>
+<data_dir>../data/dvrk_sim_phantom_validation/1/dual/</data_dir>
 <tool_config_dir>../config/tool_config.xml</tool_config_dir>
 <model_dir>../model/</model_dir>
 <cam_config_name>out_camera_data.xml</cam_config_name>
 <handeye_config_name>out_handeye_data.xml</handeye_config_name>
-<video_name>sim-Stereo-2016Feb04T181520.avi</video_name>
-<psm1_kin_name>sim-PSM1-2016Feb04T181520.xml</psm1_kin_name>
-<psm2_kin_name>sim-PSM2-2016Feb04T181520.xml</psm2_kin_name>
+<video_name>sim-Stereo-2016Feb05T175836.avi</video_name>
+<psm1_kin_name>sim-PSM1-2016Feb05T175836.xml</psm1_kin_name>
+<psm2_kin_name>sim-PSM2-2016Feb05T175836.xml</psm2_kin_name>
 <!-- PSM type: LND, MCS, ProGrasp, CF, MBF, RTS -->
 <psm1_type>LND</psm1_type>
 <psm2_type>LND</psm2_type>

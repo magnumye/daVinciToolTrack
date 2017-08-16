@@ -19,9 +19,6 @@ GraphicalUserInterface::GraphicalUserInterface(std::string config_path) :
     // Set up action signals and slots
     connect(this->actionExit, SIGNAL(triggered()), this, SLOT(slotExit()));
 
-    // Ray tracing
-//    m_tree = vtkSmartPointer<vtkOBBTree>::New();
-//    app_poly_filter = vtkSmartPointer<vtkAppendPolyData>::New();
 }
 
 

@@ -1,6 +1,6 @@
 /**
  * QuantisedGradOrientation.h
- * This soruce code was partially adapted from OPENCV
+ * This soruce code was partially adapted from OPENCV, corresponding to the approach introduced in [Hinterstoisser et al. IEEE TPAMI 2017]. 
  * Reference:
  * M. Ye, et al. "Real-time 3D Tracking of Articulated Tools for Robotic Surgery". 
  * MICCAI 2016.
