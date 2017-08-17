@@ -32,7 +32,7 @@ VTK 6.30+
 
 Eigen (included)
 
-Note that you will need to contact Intuitive Surgical for the CAD models of the surgical tools. Unfortunately, we are not allowed to share the CAD files without permission. 
+The model files can be downloaded from http://research.intusurg.com/dvrkwiki/index.php?title=DVRK:Topics:InstrumentModels. But you may need to contact Intuitive Surgical (research@intusurg.com) for access.
 
 
 ### License ###
