@@ -47,8 +47,7 @@ This code is distributed under BSD License.
 
 3. You can comment "#define MULTITHREADING" in "simulator.cpp" if you don't need parallel simulation and processing.
  
-4. Although a running example is given for offline processing, it is straightforward to combine it with kinematics retrieved from dVRK or Intuitive API.
+4. Although a running example is given for offline processing, it is straightforward to combine it with kinematics retrieved from dVRK or Intuitive API for live tracking.
 
 5. This implementation has been tested both in Windows and Ubuntu.
 
-6. Further details will be provided for configuration files.
