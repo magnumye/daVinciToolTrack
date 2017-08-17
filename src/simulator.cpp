@@ -657,7 +657,7 @@ void Simulator::virtual_rendering_thread()
 	{
 		time_count.pop_front();
 		double td = time_diff(&time_count.front(), &time_count.back());
-		Q_EMIT dispFrameRate("FPS: " + QString::number(50.0/td));
+		Q_EMIT dispFrameRate("Rendering FPS: " + QString::number(50.0/td));
 	}
 #endif
 #ifdef _WIN32
@@ -668,7 +668,7 @@ void Simulator::virtual_rendering_thread()
 	{
 		time_count.pop_front();
 		double td = difftime(time_count.back(), time_count.front());
-		Q_EMIT dispFrameRate("FPS: " + QString::number(100.0/td));
+		Q_EMIT dispFrameRate("Rendering FPS: " + QString::number(100.0/td));
 	}
 #endif
 
@@ -972,209 +972,6 @@ bool Simulator::render_view(cv::Mat &cloud)
 	return true;
 }
 
-void Simulator::draw_skel(cv::Mat &img,
-						  const cv::Mat &cHb,
-						  const Eigen::Matrix<double, 4, 4, Eigen::RowMajor> &psm_Hj4,
-						  const Eigen::Matrix<double, 4, 4, Eigen::RowMajor> &psm_Hj5,
-						  const Eigen::Matrix<double, 4, 4, Eigen::RowMajor> &psm_He,
-						  const float jaw_in, bool virt_or_cam, int psm_num)
-{
-	cv::Mat subP = cv::Mat::eye(3, 3, CV_32FC1);
-	subP.at<float>(0,0) = m_cam->Fx(); subP.at<float>(1,1) = m_cam->Fy();
-	if (virt_or_cam)
-	{
-		subP.at<float>(0,2) = m_cam->Px_win(); subP.at<float>(1,2) = m_cam->Py_win();
-	}
-	else
-	{
-		subP.at<float>(0,2) = m_cam->Px(); subP.at<float>(1,2) = m_cam->Py();
-	}
-
-
-	std::vector<cv::Mat> bHj_vec;
-	std::vector<cv::Point3f> cPj(7); // 1 shaft_far, 3 joint, 3 tips (cen/l/r)
-
-	for (int i = 0; i < 3; i++)
-		bHj_vec.push_back(cv::Mat(4, 4, CV_64F));
-
-
-	::memcpy(bHj_vec[0].data, psm_Hj4.data(), sizeof(double)*16);
-	::memcpy(bHj_vec[1].data, psm_Hj5.data(), sizeof(double)*16);
-	::memcpy(bHj_vec[2].data, psm_He.data(), sizeof(double)*16);
-
-	for (int i = 1; i <= bHj_vec.size(); i++)
-	{
-		// NB: bHj_vec unit in mm
-		cv::Mat crHj_curr = cHb * bHj_vec[i-1];
-		cPj[i].x = crHj_curr.at<double>(0, 3);
-		cPj[i].y = crHj_curr.at<double>(1, 3);
-		cPj[i].z = abs(crHj_curr.at<double>(2, 3));    // abs to ensure projection make sense
-	}
-
-	// NB: Shaft line
-	cv::Mat j2H_offset = cv::Mat::eye(4,4,CV_64FC1);
-	j2H_offset.at<double>(0, 3) = 50;  // 200mm
-	cv::Mat temp = cHb * bHj_vec[0] * j2H_offset;
-	cPj[0].x = temp.at<double>(0, 3);
-	cPj[0].y = temp.at<double>(1, 3);
-	cPj[0].z = abs(temp.at<double>(2, 3));    // abs to ensure projection make sense
-
-	// Apply tip offset
-	cv::Mat crHt;
-	if (psm_num == 1)
-		crHt = cHb * bHj_vec.back() * psm1_tool->Tip_Mat();
-	else if (psm_num == 2)
-		crHt = cHb * bHj_vec.back() * psm2_tool->Tip_Mat();
-
-	cPj[4].x = crHt.at<double>(0, 3);
-	cPj[4].y = crHt.at<double>(1, 3);
-	cPj[4].z = crHt.at<double>(2, 3);
-
-	/* Draw for extra points */
-	std::vector<cv::Point3f> cHpkey = calc_keypoints(bHj_vec[0], bHj_vec[1], bHj_vec[2], jaw_in, cHb, psm_num);
-
-
-	cPj[5] = cHpkey[12];
-	cPj[6] = cHpkey[13];
-
-	// cPj[0]: shaft_far end
-	// cPj[1]: shaft
-	// cPj[2]: logo
-	// cPj[3]: end-effector
-	// cPj[4]: tip central
-	// cPj[5]: tip flat (right)
-	// cPj[6]: tip deep (left)
-
-	std::vector<cv::Point2f> projectedPoints, projectedKeypoints;
-	cv::Mat rVec, tVec, distCoeffs;
-	rVec = cv::Mat::zeros(3,1,CV_32FC1); tVec = cv::Mat::zeros(3,1,CV_32FC1);
-	cv::projectPoints(cPj, rVec, tVec, subP, distCoeffs, projectedPoints);
-	cv::projectPoints(cHpkey, rVec, tVec, subP, distCoeffs, projectedKeypoints);
-
-	cv::circle(img, projectedPoints[2], 5, cv::Scalar(0,0,200), -1);   // logo
-	cv::circle(img, projectedPoints[3], 5, cv::Scalar(0,0,200), -1);   // jaw
-	cv::circle(img, projectedPoints[4], 5, cv::Scalar(0,0,200), -1);    // tip central
-	cv::circle(img, projectedPoints[5], 3, cv::Scalar(0,0,200), -1);    // tip left (deep)
-	cv::circle(img, projectedPoints[6], 3, cv::Scalar(0,0,200), -1);    // tip right (flat)
-
-	cv::line(img, projectedPoints[1], projectedPoints[0], cv::Scalar(0,0,200), 2);  // shaft -> shaft_far
-	cv::line(img, projectedPoints[3], projectedPoints[2], cv::Scalar(0,0,200), 2);  // end -> logo
-	cv::line(img, projectedPoints[4], projectedPoints[3], cv::Scalar(0,0,200), 2);  // tip -> jaw
-	cv::line(img, projectedPoints[5], projectedPoints[3], cv::Scalar(0,0,200), 2);  // tip_flat -> jaw
-	cv::line(img, projectedPoints[6], projectedPoints[3], cv::Scalar(0,0,200), 2);  // tip_deep -> jaw
-
-	// cv::circle(img, projectedKeypoints[1], 3, cv::Scalar(0,255,255), -1);  // yellow shaft_pivot
-	//cv::circle(img, projectedKeypoints[3], 3, cv::Scalar(255,255,0), -1);  // cyan logo_pin
-	//cv::circle(img, projectedKeypoints[5], 3, cv::Scalar(0,255,255), -1);  // yellow logo_wheel
-	//cv::circle(img, projectedKeypoints[7], 3, cv::Scalar(255,255,0), -1);  // cyan logo_s
-	//cv::circle(img, projectedKeypoints[11], 3, cv::Scalar(255,255,0), -1);  // cyan logo_pivot
-
-
-	// TEST cloud
-	//    std::cout << cHpkey[7] << "; " << cHpkey[11] << std::endl;
-	//    std::cout << cloud_.at<cv::Vec3f>(projectedKeypoints[7].y, projectedKeypoints[7].x)
-	//            << cloud_.at<cv::Vec3f>(projectedKeypoints[11].y, projectedKeypoints[11].x)<< std::endl;
-	//    std::cout << "==================================================================" << std::endl;
-}
-
-void Simulator::draw_skel(cv::Mat &img, const cv::Mat &cHb,
-						  const Eigen::Matrix<double, 4, 4, Eigen::RowMajor> &psm_Hj4,
-						  const Eigen::Matrix<double, 4, 4, Eigen::RowMajor> &psm_Hj5,
-						  const Eigen::Matrix<double, 4, 4, Eigen::RowMajor> &psm_He,
-						  const float jaw_in, const cv::Mat& err_T, int psm_num)
-{
-	cv::Mat subP = cv::Mat::eye(3, 3, CV_32FC1);
-	subP.at<float>(0,0) = m_cam->Fx(); subP.at<float>(1,1) = m_cam->Fy();
-	subP.at<float>(0,2) = m_cam->Px(); subP.at<float>(1,2) = m_cam->Py();
-
-	std::vector<cv::Mat> bHj_vec;
-	std::vector<cv::Point3f> cPj(7); // 1 shaft_far, 3 joint, 3 tips (cen/l/r)
-
-	for (int i = 0; i < 3; i++)
-		bHj_vec.push_back(cv::Mat(4, 4, CV_64F));
-
-
-	::memcpy(bHj_vec[0].data, psm_Hj4.data(), sizeof(double)*16);
-	::memcpy(bHj_vec[1].data, psm_Hj5.data(), sizeof(double)*16);
-	::memcpy(bHj_vec[2].data, psm_He.data(), sizeof(double)*16);
-
-	cv::Mat corr_cHb = err_T * cHb;
-
-	for (int i = 1; i <= bHj_vec.size(); i++)
-	{
-		// NB: bHj_vec unit in mm
-		cv::Mat crHj_curr = corr_cHb * bHj_vec[i-1];
-		cPj[i].x = crHj_curr.at<double>(0, 3);
-		cPj[i].y = crHj_curr.at<double>(1, 3);
-		cPj[i].z = abs(crHj_curr.at<double>(2, 3));    // abs to ensure projection make sense
-	}
-
-	// NB: Shaft line
-	cv::Mat j2H_offset = cv::Mat::eye(4,4,CV_64FC1);
-	j2H_offset.at<double>(0, 3) = 50;  // 200mm
-	cv::Mat temp = corr_cHb * bHj_vec[0] * j2H_offset;
-	cPj[0].x = temp.at<double>(0, 3);
-	cPj[0].y = temp.at<double>(1, 3);
-	cPj[0].z = abs(temp.at<double>(2, 3));    // abs to ensure projection make sense
-
-	// Apply tip offset
-	cv::Mat crHt;
-	if (psm_num == 1)
-		crHt = corr_cHb * bHj_vec.back() * psm1_tool->Tip_Mat();
-	else if (psm_num == 2)
-		crHt = corr_cHb * bHj_vec.back() * psm2_tool->Tip_Mat();
-
-	cPj[4].x = crHt.at<double>(0, 3);
-	cPj[4].y = crHt.at<double>(1, 3);
-	cPj[4].z = crHt.at<double>(2, 3);
-
-	/* Draw for extra points */
-	std::vector<cv::Point3f> cHpkey = calc_keypoints(bHj_vec[0], bHj_vec[1], bHj_vec[2], jaw_in, corr_cHb, psm_num);
-
-
-	cPj[5] = cHpkey[12];
-	cPj[6] = cHpkey[13];
-
-	// cPj[0]: shaft_far end
-	// cPj[1]: shaft
-	// cPj[2]: logo
-	// cPj[3]: end-effector
-	// cPj[4]: tip central
-	// cPj[5]: tip flat (right)
-	// cPj[6]: tip deep (left)
-
-	std::vector<cv::Point2f> projectedPoints;
-	cv::Mat rVec, tVec;
-	cv::Mat distCoeffs;
-	rVec = cv::Mat::zeros(3,1,CV_32FC1); tVec = cv::Mat::zeros(3,1,CV_32FC1);
-	cv::projectPoints(cPj, rVec, tVec, subP, distCoeffs, projectedPoints);
-
-
-	cv::circle(img, projectedPoints[2], 5, cv::Scalar(0,200,0), -1);   // logo
-	cv::circle(img, projectedPoints[3], 5, cv::Scalar(0,200,0), -1);   // jaw
-	cv::circle(img, projectedPoints[4], 5, cv::Scalar(0,200,0), -1);    // tip central
-	cv::circle(img, projectedPoints[5], 3, cv::Scalar(0,200,0), -1);    // tip left (deep)
-	cv::circle(img, projectedPoints[6], 3, cv::Scalar(0,200,0), -1);    // tip right (flat)
-
-	cv::line(img, projectedPoints[1], projectedPoints[0], cv::Scalar(0,255,128), 2);  // shaft -> shaft_far
-	cv::line(img, projectedPoints[3], projectedPoints[2], cv::Scalar(0,255,128), 2);  // end -> logo
-	cv::line(img, projectedPoints[4], projectedPoints[3], cv::Scalar(0,255,128), 2);  // tip -> jaw
-	cv::line(img, projectedPoints[5], projectedPoints[3], cv::Scalar(0,255,128), 2);  // tip_flat -> jaw
-	cv::line(img, projectedPoints[6], projectedPoints[3], cv::Scalar(0,255,128), 2);  // tip_deep -> jaw
-
-	//cv::circle(img, projectedPoints[2], 10, cv::Scalar(0,255,0), -1);   // logo
-	//cv::circle(img, projectedPoints[3], 10, cv::Scalar(0,0,255), -1);   // jaw
-	//cv::circle(img, projectedPoints[4], 5, cv::Scalar(255,0,0), -1);    // tip central
-	//cv::circle(img, projectedPoints[5], 3, cv::Scalar(0,255,0), -1);    // tip left (deep)
-	//cv::circle(img, projectedPoints[6], 3, cv::Scalar(0,0,255), -1);    // tip right (flat)
-
-	//cv::line(img, projectedPoints[1], projectedPoints[0], cv::Scalar(0,255,0), 2);  // shaft -> shaft_far
-	//cv::line(img, projectedPoints[3], projectedPoints[2], cv::Scalar(0,0,255), 2);  // end -> logo
-	//cv::line(img, projectedPoints[4], projectedPoints[3], cv::Scalar(255,0,0), 2);  // tip -> jaw
-	//cv::line(img, projectedPoints[5], projectedPoints[3], cv::Scalar(255,0,0), 2);  // tip_flat -> jaw
-	//cv::line(img, projectedPoints[6], projectedPoints[3], cv::Scalar(255,0,0), 2);  // tip_deep -> jaw
-
-}
 void Simulator::check_parts_visible(const cv::Mat &depth_map, const std::vector<cv::Point3f> &keypoints,
 									const std::vector<cv::Point2f>& projectedKeypoints, std::vector<bool> &visibilities,
 									const std::vector<int>& template_half_sizes)
@@ -1350,27 +1147,6 @@ void Simulator::draw_pts(cv::Mat &img, const std::vector<cv::Point2f>& projected
 						 const std::vector<cv::Point2f>& projectedKeypoints,
 						 const std::vector<bool>& visibilities)
 {
-	//cv::circle(img, projectedPoints[2], 10, cv::Scalar(0,255,0), -1);   // logo
-	//cv::circle(img, projectedPoints[3], 10, cv::Scalar(0,0,255), -1);   // jaw
-	//cv::circle(img, projectedPoints[4], 5, cv::Scalar(255,0,0), -1);    // tip central
-	//cv::circle(img, projectedPoints[5], 5, cv::Scalar(255,0,0), -1);    // tip left
-	//cv::circle(img, projectedPoints[6], 5, cv::Scalar(255,0,0), -1);    // tip right
-
-	//cv::line(img, projectedPoints[1], projectedPoints[0], cv::Scalar(0,255,0), 2);  // shaft -> shaft_far
-	//cv::line(img, projectedPoints[3], projectedPoints[2], cv::Scalar(0,0,255), 2);  // end -> logo
-	//cv::line(img, projectedPoints[4], projectedPoints[3], cv::Scalar(255,0,0), 2);  // tip -> jaw
-	//cv::line(img, projectedPoints[5], projectedPoints[3], cv::Scalar(255,0,0), 2);  // tip_left -> jaw
-	//cv::line(img, projectedPoints[6], projectedPoints[3], cv::Scalar(255,0,0), 2);  // tip_right -> jaw
-
-	//    cv::circle(img, projectedKeypoints[1], 3, cv::Scalar(0,255,255), -1);  // yellow shaft_pivot_deep
-	//   cv::circle(img, projectedKeypoints[3], 3, cv::Scalar(0,153,255), -1);  // orange logo_pin_deep
-	//    cv::circle(img, projectedKeypoints[5], 3, cv::Scalar(0,0,255), -1);  // red logo_wheel_flat
-	//    cv::circle(img, projectedKeypoints[7], 3, cv::Scalar(255,255,0), -1);  // cyan logo_s_deep
-	////    cv::circle(img, projectedKeypoints[9], 3, cv::Scalar(255,255,0), -1);  // cyan i_dot1
-	//    cv::circle(img, projectedKeypoints[11], 3, cv::Scalar(255,0,0), -1);  // blue logo_pivot_deep
-	//	cv::circle(img, projectedKeypoints[12], 3, cv::Scalar(255,0,255), -1); // magenta tip_flat
-	//	cv::circle(img, projectedKeypoints[13], 3, cv::Scalar(0,255,0), -1); //green tip_deep
-
 	for (int i = 0; i < visibilities.size(); i++)
 	{
 		if (visibilities[i])

@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<opencv_storage>
+<calibration_Time>"Thu 04 Feb 2016 18:08:37 GMT"</calibration_Time>
+<nrOfFrames>15</nrOfFrames>
+<image_Width>720</image_Width>
+<image_Height>576</image_Height>
+<board_Width>4</board_Width>
+<board_Height>11</board_Height>
+<square_Size>1.5000000000000000e+00</square_Size>
+<FixAspectRatio>1.</FixAspectRatio>
+<!-- flags:  +fix_aspectRatio +fix_principal_point -->
+<flagValue>6</flagValue>
+<bHc_psm1 type_id="opencv-matrix">
+  <rows>4</rows>
+  <cols>4</cols>
+  <dt>d</dt>
+  <data>
+    -7.9597290074711990e-01 -5.8797835762645567e-01
+    1.4390480269647424e-01 1.6302822675776323e+00
+    -5.1332519126707943e-01 5.2964556646336181e-01
+    -6.7525759672610930e-01 9.2473718431250703e+01
+    3.2081831195683291e-01 -6.1135670838602918e-01
+    -7.2340762079519716e-01 -5.7359375063515081e+01 0. 0. 0. 1.</data></bHc_psm1>
+<bHc_psm2 type_id="opencv-matrix">
+  <rows>4</rows>
+  <cols>4</cols>
+  <dt>d</dt>
+  <data>
+    -8.7438823035051161e-01 4.8517186626751013e-01
+    7.3131940355771760e-03 -4.9730865344032992e+01
+    3.2899952326775095e-01 6.0387422896147058e-01
+    -7.2601324318898075e-01 9.2152087472734337e+01
+    -3.5665744954240530e-01 -6.3241139757177911e-01
+    -6.8764183112083566e-01 -5.6226714201065938e+01 0. 0. 0. 1.</data></bHc_psm2>
+</opencv_storage>

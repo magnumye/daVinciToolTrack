@@ -183,7 +183,7 @@ void CameraProcessor::process()
 		double fps = time_count.size()/td;
 		std::stringstream str;
 		str << setprecision(4) << fps;
-		Q_EMIT dispFrameRate("FPS: " + QString::number(fps));
+		Q_EMIT dispFrameRate("Processing FPS: " + QString::number(fps));
 		cv::putText(camera_image_local, "FPS: "+str.str(), cv::Point(5,15), cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(0, 255, 0) );
 	}
 #endif
@@ -198,7 +198,7 @@ void CameraProcessor::process()
 	{
 		time_count.pop_front();
 		double td = difftime(time_count.back(), time_count.front());
-		Q_EMIT dispFrameRate("FPS: " + QString::number(100.0/td));
+		Q_EMIT dispFrameRate("Processing FPS: " + QString::number(100.0/td));
 	}
 #endif
 
@@ -251,34 +251,27 @@ bool CameraProcessor::process_camera(const std::vector<cv::Point3f>& psm1_allKey
 		std::vector<std::string> verifiedNames;
 		for (int ci = 0; ci < verifiedCamerapoints_t.size(); ci++)
 		{
-			if (verifiedNames_t[ci] != "shaft_centre")
-			{
-				verifiedCamerapoints.push_back(verifiedCamerapoints_t[ci]);
-				verifiedNames.push_back(verifiedNames_t[ci]);
-
-			}
-			else
+		
+			verifiedCamerapoints.push_back(verifiedCamerapoints_t[ci]);
+			verifiedNames.push_back(verifiedNames_t[ci]);
+			if (verifiedNames_t[ci] == "shaft_centre")
 			{
 				psm1_shaft_visible = true;
-				verifiedCamerapoints.push_back(verifiedCamerapoints_t[ci]);
-				verifiedNames.push_back(verifiedNames_t[ci]);
 				psm1_shaft_centre = verifiedCamerapoints_t[ci];
 			}
 
 		}
 
 
-
-		// PSM1 shaft centre lin detection
-		int x_limit = camera_image.cols/2; 
-		int y_limit = 20; 
-		int width_limit = camera_image.cols - x_limit;
-		int height_limit = camera_image.rows - 2*y_limit;
-		cv::Rect roi = cv::Rect(x_limit, y_limit, width_limit, height_limit);
-		//detect_shaft(camera_image, binary_mask, roi);
-
 		if ((int)verifiedCamerapoints.size() > low_num_threshold_psm1 || img_id == 0)
 		{
+			if (show_kine)
+				for (int il = 0; il < verifiedCamerapoints.size(); il++)
+				{
+					cv::circle(camera_image, verifiedCamerapoints[il], 5,
+						tool_partcolors[tool_partname2ids[verifiedNames[il]]],
+						-1, CV_AA);
+				}
 			// Solve pnp
 			cv::Mat rvec, tvec;
 			bool pose_good = false;
@@ -399,32 +392,26 @@ bool CameraProcessor::process_camera(const std::vector<cv::Point3f>& psm1_allKey
 		std::vector<std::string> verifiedNames;
 		for (int ci = 0; ci < verifiedCamerapoints_t.size(); ci++)
 		{
-			if (verifiedNames_t[ci] != "shaft_centre")
+			verifiedCamerapoints.push_back(verifiedCamerapoints_t[ci]);
+			verifiedNames.push_back(verifiedNames_t[ci]);
+			if (verifiedNames_t[ci] == "shaft_centre")
 			{
-				verifiedCamerapoints.push_back(verifiedCamerapoints_t[ci]);
-				verifiedNames.push_back(verifiedNames_t[ci]);
-
-			}
-			else
-			{
-				verifiedCamerapoints.push_back(verifiedCamerapoints_t[ci]);
-				verifiedNames.push_back(verifiedNames_t[ci]);
 				psm2_shaft_visible = true;
 				psm2_shaft_centre = verifiedCamerapoints_t[ci];
 			}
+
 		}
 
 
-		// PSM2 shaft centre lin detection
-		int x_limit = 0; 
-		int y_limit = 20; 
-		int width_limit = camera_image.cols/2;
-		int height_limit = camera_image.rows - 2*y_limit;
-		cv::Rect roi = cv::Rect(x_limit, y_limit, width_limit, height_limit);
-		//detect_shaft(camera_image, binary_mask, roi);
-
 		if ((int)verifiedCamerapoints.size() > low_num_threshold_psm2 || img_id == 0)
 		{
+			if (show_kine)
+				for (int il = 0; il < verifiedCamerapoints.size(); il++)
+				{
+					cv::circle(camera_image, verifiedCamerapoints[il], 5,
+						tool_partcolors[tool_partname2ids[verifiedNames[il]]],
+						-1, CV_AA);
+				}
 			// Solve pnp
 			cv::Mat rvec, tvec;
 			bool pose_good = false;

@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <opencv_storage>
-<data_dir>../data/dvrk_sim_phantom_validation/1/dual/</data_dir>
+<data_dir>../data/</data_dir>
 <tool_config_dir>../config/tool_config.xml</tool_config_dir>
 <model_dir>../model/</model_dir>
 <cam_config_name>out_camera_data.xml</cam_config_name>

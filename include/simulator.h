@@ -332,17 +332,6 @@ private:
 
 	void init_LND_parameters();
 
-	void draw_skel(cv::Mat &img, const cv::Mat &cHb,
-		const Eigen::Matrix<double, 4, 4, Eigen::RowMajor> &psm_Hj4,
-		const Eigen::Matrix<double, 4, 4, Eigen::RowMajor> &psm_Hj5,
-		const Eigen::Matrix<double, 4, 4, Eigen::RowMajor> &psm_He,
-		const float jaw_in, bool virt_or_cam, int psm_num);
-
-	void draw_skel(cv::Mat &img, const cv::Mat &cHb,
-		const Eigen::Matrix<double, 4, 4, Eigen::RowMajor> &psm_Hj4,
-		const Eigen::Matrix<double, 4, 4, Eigen::RowMajor> &psm_Hj5,
-		const Eigen::Matrix<double, 4, 4, Eigen::RowMajor> &psm_He,
-		const float jaw_in, const cv::Mat& err_T, int psm_num);
 	void calc_kpts_2D_sim(const cv::Mat& camHbase_psm, const cv::Mat& camHbase_psm_no_corr,
 		Eigen::Matrix<double, 4, 4, Eigen::RowMajor> &psm_Hj4,
 		Eigen::Matrix<double, 4, 4, Eigen::RowMajor> &psm_Hj5,

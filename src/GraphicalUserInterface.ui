@@ -107,16 +107,16 @@
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout">
       <item>
-       <widget class="QLabel" name="info_label1">
+       <widget class="QLabel" name="info_label2">
         <property name="text">
-         <string>Info 1</string>
+         <string>Info 2</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="info_label2">
+       <widget class="QLabel" name="info_label1">
         <property name="text">
-         <string>Info 2</string>
+         <string>Info 1</string>
         </property>
        </widget>
       </item>
