@@ -32,12 +32,13 @@ VTK 6.30+
 
 Eigen (included)
 
-The model files can be downloaded from http://research.intusurg.com/dvrkwiki/index.php?title=DVRK:Topics:InstrumentModels. But you may need to contact Intuitive Surgical (research@intusurg.com) for access.
+The CAD model files can be downloaded from http://research.intusurg.com/dvrkwiki/index.php?title=DVRK:Topics:InstrumentModels. But you may need to contact Intuitive Surgical (research@intusurg.com) for access.
 
 
 ### License ###
 
 This code is distributed under BSD License.
+
 
 ### Notes ###
 
