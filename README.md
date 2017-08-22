@@ -7,19 +7,12 @@ https://arxiv.org/pdf/1605.03483.pdf
 
 ```
 @inproceedings{ye2016real,
-
   title={Real-time 3D Tracking of Articulated Tools for Robotic Surgery},
-  
   author={Ye, Menglong and Zhang, Lin and Giannarou, Stamatia and Yang, Guang-Zhong},
-  
   booktitle={International Conference on Medical Image Computing and Computer-Assisted Intervention},
-  
   pages={386--394},
-  
   year={2016},
-  
   organization={Springer}
-  
  }
  ```
 
